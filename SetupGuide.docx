@@ -1,0 +1,46 @@
+SRP Pollution Integrated Project Setup Guide
+
+1. Prerequisites
+- Node.js (Recommended: v16 or higher)
+- npm (Node Package Manager)
+- Mapbox Account (for API key)
+- OpenWeatherMap Account (for API key)
+
+2. Clone the Repository
+   git clone <your-repo-url>
+   cd SRP-pollution-integrated
+
+3. Install Dependencies
+   npm install
+
+4. Environment Variables
+Create a .env file in the root directory with the following content:
+
+VITE_MAPBOX_ACCESS_TOKEN=your_mapbox_access_token
+VITE_OPENWEATHERMAP_API_KEY=your_openweathermap_api_key
+
+Replace your_mapbox_access_token with your Mapbox API key.
+Replace your_openweathermap_api_key with your OpenWeatherMap API key.
+
+5. Running the Development Server
+   npm run dev
+The app will be available at http://localhost:5173 (default Vite port).
+
+6. Building for Production
+   npm run build
+
+7. Previewing the Production Build
+   npm run preview
+
+8. Linting
+   npm run lint
+
+9. Project Structure
+- src/ - Source code (components, services, config, types)
+- src/services/mapboxService.ts - Handles Mapbox API requests
+- src/services/weatherService.ts - Handles OpenWeatherMap API requests
+- src/config/index.ts - Configuration constants
+
+10. Notes
+- Ensure your .env file is not committed to version control (it is in .gitignore).
+- The app uses Vite, React, TypeScript, Tailwind CSS, Mapbox, and OpenWeatherMap. 
