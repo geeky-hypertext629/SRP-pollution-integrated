@@ -56,6 +56,7 @@ export const isAuthenticated = async () => {
     const data = await res.json();
 
     // Check the 'authenticated' field in the response
+    console.log(data);
     return data.authenticated === true;
   } catch (error) {
     // In case of network errors or other issues, treat as not authenticated
