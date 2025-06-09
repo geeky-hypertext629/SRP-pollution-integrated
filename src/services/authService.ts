@@ -43,12 +43,24 @@ export const signup = async (username: string, password: string) => {
 export const isAuthenticated = async () => {
   // Check for the 'token' cookie as set by the backend
   // 
-  const res = await fetch('https://srp-backend.onrender.com/api/check-auth', {
-    method: 'GET',
-    credentials: 'include', // Important: sends cookies!
-  });
-  console.log(res);
-  return res.ok;
+  try {
+    const res = await fetch('https://srp-backend.onrender.com/api/check-auth', {
+      method: 'GET',
+      credentials: 'include', // Important: sends cookies!
+    });
+
+    // If the response is not OK (e.g., 401), user is not authenticated
+    if (!res.ok) return false;
+
+    // Parse the JSON response
+    const data = await res.json();
+
+    // Check the 'authenticated' field in the response
+    return data.authenticated === true;
+  } catch (error) {
+    // In case of network errors or other issues, treat as not authenticated
+    return false;
+  }
 };
 
 export const logout = async () => {
