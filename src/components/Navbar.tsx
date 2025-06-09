@@ -21,6 +21,7 @@ const Navbar: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    setAuth(null); // Show loading while checking
     (async () => {
       const result = await isAuthenticated();
       setAuth(result);
@@ -32,11 +33,11 @@ const Navbar: React.FC = () => {
   const handleLogout = async () => {
     await logout();
     setAuth(false);
-    navigate('/');
+    window.location.href = '/'; // Force reload to clear state
   };
 
   if (auth === null) {
-    return <div className="h-16">Loading...</div>;
+    return <div className="h-16"></div>; // Or a spinner if you prefer
   }
 
   return (
