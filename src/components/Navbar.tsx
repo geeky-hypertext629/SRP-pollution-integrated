@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Menu, X } from 'lucide-react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { isAuthenticated, logout } from '../services/authService';
 
 const Navbar: React.FC = () => {
@@ -8,6 +8,7 @@ const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [auth, setAuth] = useState<null | boolean>(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,7 +25,7 @@ const Navbar: React.FC = () => {
       const result = await isAuthenticated();
       setAuth(result);
     })();
-  }, []);
+  }, [location]);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -33,6 +34,10 @@ const Navbar: React.FC = () => {
     setAuth(false);
     navigate('/');
   };
+
+  if (auth === null) {
+    return <div className="h-16">Loading...</div>;
+  }
 
   return (
     <header 

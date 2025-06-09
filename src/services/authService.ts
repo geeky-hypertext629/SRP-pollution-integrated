@@ -47,6 +47,7 @@ export const isAuthenticated = async () => {
     method: 'GET',
     credentials: 'include', // Important: sends cookies!
   });
+  console.log(res);
   return res.ok;
 };
 
