@@ -4,6 +4,8 @@ import SearchBar from './SearchBar';
 import RouteCard from './RouteCard';
 import { Location, RouteWithPollution } from '../types';
 import { AQI_LEVELS } from '../config';
+import { logout } from '../services/authService';
+import { useNavigate } from 'react-router-dom';
 
 interface SidebarProps {
   origin: Location | null;
@@ -28,13 +30,15 @@ const Sidebar: React.FC<SidebarProps> = ({
   onRouteSelect,
   onSwapLocations,
 }) => {
+  const navigate = useNavigate();
+
   // Calculate average pollution components for selected route
   const getAveragePollutants = (route: RouteWithPollution) => {
     const components = route.pollutionData.segments.reduce(
       (acc, segment) => {
         const pollutants = segment.pollutionData.components;
-        Object.keys(pollutants).forEach(key => {
-          acc[key] = (acc[key] || 0) + pollutants[key];
+        (Object.keys(pollutants) as (keyof typeof pollutants)[]).forEach(key => {
+          acc[key] = (acc[key] || 0) + (pollutants as any)[key];
         });
         return acc;
       },
@@ -68,6 +72,11 @@ const Sidebar: React.FC<SidebarProps> = ({
         </div>
       </div>
     );
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
   };
 
   return (
@@ -188,6 +197,13 @@ const Sidebar: React.FC<SidebarProps> = ({
           {renderAqiLegend()}
         </div>
       )}
+      {/* Logout button at the bottom */}
+      <button
+        onClick={handleLogout}
+        className="mt-6 bg-red-600 hover:bg-red-700 text-white py-2 rounded font-semibold w-full"
+      >
+        Logout
+      </button>
     </div>
   );
 };
